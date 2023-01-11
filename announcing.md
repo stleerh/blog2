@@ -55,6 +55,8 @@ browser-based Web Console.  FLP sends the data to Loki to write out to storage.
 Loki provides an API for the Console Plugin to query for information to be
 displayed.  A high level diagram looks like this:
 
+(TODO - Turn into an image)
+
                                            Web Console &
                                            Console Plugin
                                                 /|\
