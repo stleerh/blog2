@@ -14,15 +14,16 @@ Kubernetes cluster.  Prior to 4.12, you could only see snapshots of this
 traffic.  It is the difference between taking a picture versus filming a video.
 
 Why is this important?  Because with a video, you now have a record of
-everything that happened.  This connects all the missing dots to complete the
-whole story because you have a timeline of events.  When there is a problem
-such as a traffic jam (latency), you will know what happened, who was involved,
-when it occurred and for how long, where it happened, and with analysis, you
-might be able to figure out why it happened and how to prevent it from
-happening again in the future.  Perhaps to avoid this latency that tends
-to happen at a certain time of the day, you could increase the amount of
-bandwidth only for this period of time to improve utilization and do better
-cost analysis and planning.
+everything that happened.  It generates a timeline of events for every movement
+that's made so all of this is captured and stored.  By organizing this data,
+you can replay the entire stories that happen concurrently.  For example, when
+there is a problem such as a traffic jam (latency), you will know what
+happened, who was involved, when it occurred and for how long, where it
+happened, and with analysis, you might be able to figure out why it happened
+and how to prevent it from happening again in the future.  Perhaps to avoid
+this latency that tends to occur at a certain time of the day, you could
+increase the amount of bandwidth only for this period of time to improve
+utilization and do better cost analysis and planning.
 
 
 ## Network Observability Architecture
@@ -48,23 +49,15 @@ Flowlogs Pipeline (FLP) that processes this data, enriches it to be
 Kubernetes-aware, and deduplicates redundant and less relevant data.  If you
 have bursty or high amounts of traffic, you will want to consider installing
 Apache Kafka to be the middleman in between the eBPF agent and FLP to help with
-buffering and improving streaming.
+buffering and improve streaming.
 
 Network Observability also includes a Console Plugin that extends the
 browser-based Web Console.  FLP sends the data to Loki to write out to storage.
 Loki provides an API for the Console Plugin to query for information to be
-displayed.  A high level diagram looks like this:
+displayed.  A high level architectural diagram looks like this:
 
-(TODO - Turn into an image)
-
-                                           Web Console &
-                                           Console Plugin
-                                                /|\
-                                                 |
-  eBPF Agent -> [Kafka] -> Flowlogs Pipeline -> Loki
-               (optional)                        |
-                                                \|/
-                                            object store
+![Architectural Diagram](images/arch.png)
+_<div style="text-align: center">Figure 1: Architectural Diagram</div>_
 
 
 ## Installing Network Observability
@@ -83,18 +76,18 @@ components that are involved.  The Network Observability Operator only manages
 eBPF Agent, Flowlogs Pipeline, and Console Plugin.  The main items to consider
 for installation are:
 
-1. Provide an object store
+1. Provide an object store<br>
 See the [list of supported object stores](https://grafana.com/docs/loki/latest/operations/storage/).
 You will need to create a secrets file to access the object store.
 
-2. Install Loki
+2. Install Loki<br>
 The recommendation is to install Loki Operator 5.6, which simplifies the
 deployment of Loki in microservices mode that is necessary for scalability.  In
 Web Console, you can do this from OperatorHub.  Note that if you already have
 Loki installed for another purpose, it cannot be shared.  You must still
 install a separate Loki for Network Observability.
 
-3. Decide if you need Kafka
+3. Decide if you need Kafka<br>
 For clusters with ten nodes or less, you can try without Kafka.  If you have
 25+ nodes, then most likely, you will need it.  Anything in between depends on
 the volume of network traffic.  If you install Kafka and accept all or most of
@@ -102,14 +95,14 @@ the default values, it will handle about 5K flows per second (fps) and take
 less than 5% of your current CPU and memory resources.  Kafka can be installed
 using the Red Hat AMQ Streams operator in OperatorHub.
 
-4. Decide on sampling rate
+4. Decide on sampling rate<br>
 The fps is affected by the sampling rate.  Sampling refers to the ratio of
 packets that are evaluated. It defaults to 50, meaning one out of 50 packets
 are considered and the rest are ignored.  A value of 0 or 1 means no sampling
 and all packets are considered.  When you create a Flow Collector resource from
 Network Observability Operator, the sampling field is in the eBPF section.
 
-5. Consider scalability
+5. Consider scalability<br>
 If you have high network traffic volume, check the documentation on the list of
 parameters to change to better support scalability.  We've tested up to 120
 nodes with 100 pods each, no sampling, and traffic continuously running on 10%
@@ -123,29 +116,29 @@ Network Observability is only available to users with the cluster-admin role,
 such as kubeadmin, since this user can see all the traffic in the cluster, both
 infrastructure-related and all applications.  It handles one cluster so any
 traffic that goes out or comes into this cluster is considered external traffic
-even if the traffic is from another cluster that you own.
+even if the traffic is from another cluster that you manage.
 
 Once you have Network Observability installed and have created a FlowCollector
 resource, behind the scenes, the network flow data will be created, collected,
-, enriched with Kubernetes-related information such as the namespaces and pod
+enriched with Kubernetes-related information such as the namespaces and pod
 names, and then saved to object store.  The Web Console will pop up a dialog
 asking you to refresh the web page.  After that, a new menu item under
 **Observe** called **Network Traffic** appears.
 
 ![Network Traffic](images/network_traffic_panel.png)
-_Figure 1: Overview_
+_<div style="text-align: center">Figure 2: Overview</div>_
 
-Above the charts, there are common settings that apply to the three tabs near
-the top called Overview, Traffic flows, and Topology.  The first dropdown is
-Query options.  In it, you can decide what flows are shown.  By default, it is
-**Destination** which means it is the ingress traffic to the node as opposed to
-**Source** which is the egress traffic.  You typically don't want **Both**
-since it will end up reporting the same flow twice, but that may be necessary
-if you need to know exactly where the traffic flowed into and out of the
-interfaces.  There is also a choice for how you want to match filters (more on
-that later) and the maximum number of flows to retrieve.
+Above the charts in Figure 2, there are common settings that apply to the three
+tabs near the top called Overview, Traffic flows, and Topology.  The first
+dropdown is Query options.  In it, you can decide what flows are shown.  By
+default, it is **Destination** which means it is the ingress traffic to the
+node as opposed to **Source** which is the egress traffic.  You typically don't
+want **Both** since it will end up reporting the same flow twice, but that may
+be necessary if you need to know exactly where the traffic flowed into and out
+of the interfaces.  There is also a choice for how you want to match filters
+(more on that later) and the maximum number of flows to retrieve.
 
-Next is Quick filters.  They default excludes infrastructure traffic so if
+Next is Quick filters.  The default excludes infrastructure traffic so if
 you have a new cluster with no applications running, there will be no data.
 The next field provides a powerful filtering capability.  Select a choice
 such as Common Namespace and enter a value to build your filter.  If you add
@@ -158,11 +151,20 @@ upper right corner, you can set the time range for the data and have the
 panel refresh automatically at various intervals if desired.
 
 The three tabs present different visualizations for the traffic flows.  In the
-Overview tab, there are a number of different chart types that gives you a
-summary of the bandwidth usage.  The Traffic flows tab presents a detailed
-table of each flow enriched with Kubernetes metadata and the ability to choose
-what columns to display.  Finally, the Topology tab raises the bar on the user
-interface by providing a graphical representation of traffic flows.
+Overview tab (Figure 2), there are a number of different chart types that gives
+you a summary of the bandwidth usage.  The Traffic flows tab (Figure 3)
+presents a detailed table of each flow enriched with Kubernetes metadata and
+the ability to choose what columns to display.
+
+![Network Traffic](images/flow_table.png)
+_<div style="text-align: center">Figure 3: Traffic flow table</div>_
+
+<br>
+Finally, the Topology tab (Figure 4) raises the bar on the user interface by
+providing a graphical representation of traffic flows.
+
+![Network Traffic](images/topology.png)
+_<div style="text-align: center">Figure 4: Topology view</div>_
 
 
 ## Use Cases
@@ -174,7 +176,7 @@ cases, and encourage you to try these out or come up with your own use cases.
 ### Use case #1: See what's running on my network
 
 Kubernetes is great for orchestration and supporting microservices and
-scability, but one area it doesn't help in is observability.  The extra
+scability, but one area it doesn't help is observability.  The extra
 infrastructure layer and pods coming and going makes it even more difficult to
 see what is happening on your network.  That is all about to change.
 
