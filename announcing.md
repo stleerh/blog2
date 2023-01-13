@@ -7,7 +7,7 @@ the highways, other cars completely stopped at intersections, and vehicles
 parked at various locations. If you focus on a single vehicle, you can even
 track its starting point and its final destination.
 
-With the release of OpenShift 4.12, we are introducing a new feature called
+With the release of OpenShift 4.12, Red Hat is introducing a new feature called
 Network Observability.  Like this airplane view, you will be able to visualize
 the moving traffic.  Instead of vehicles, it is the data that's moving in your
 Kubernetes cluster.  Prior to 4.12, you could only see snapshots of this
@@ -29,11 +29,11 @@ utilization and do better cost analysis and planning.
 ## Network Observability Architecture
 
 The core of Network Observability is to collect network flows or more
-specifically IPFIX data and then present this in powerful visualizations.
+specifically IPFIX data and then present this using powerful visualizations.
 NetFlows, as they were originally called, existed back in the 1990s as a way to
-capture that network insight at layer 3/4 of the OSI model.
+capture that network insight at layer 3 and 4 of the OSI model.
 
-What is unique about our solution thirty years later is that instead of having
+What is unique about this solution thirty years later is that instead of having
 a typical router or switch export IPFIX data, an eBPF Agent was developed to
 hook into the network events so it can capture and export data coming in and
 out of the interfaces at the kernel level.  eBPF is a relatively new technology
@@ -224,8 +224,8 @@ and continue.
 10. Click **Add data source** and select **Loki**.
 11. For the **URL**, enter the same value you use for the Loki **url** in FlowCollector (e.g. https://lokistack-gateway-http.netobserv.svc:8080/api/logs/v1/network).
 12. Turn on **Skip TLS Verify** or provide a CA certificate.
-13. Click **Add header**.  For **Header**, enter `Authorization`.  We now
-need the OAuth token for **Value**.  We will copy the token from the service
+13. Click **Add header**.  For **Header**, enter `Authorization`.  An OAuth
+token is needed for **Value**.  This token will be copied from the service
 account *netobserv-plugin*.
 
     a) In Web Console, go to **Workloads > Secrets**.<br>
@@ -290,7 +290,7 @@ is an API for Kafka Topic.  The next steps are to configure FlowCollector.
 that you are exporting to.
 4. For **topic**, enter the Kafka topic that you created earlier.
 5. For **tls**, provide the CA certificate information to communicate with
-the Kafka server.
+the other Kafka server.
 
 ![FlowCollector - exporters](images/flowcollector-export_to_kafka.png)
 _<div style="text-align: center">Figure 10: FlowCollector - exporters</div>_
@@ -299,10 +299,20 @@ Finally, configure your receiving Kafka server as a listener and make sure you
 are using the same port on both sides.
 
 
-## Summary
+## Wrap Up
 
-(TODO)
-- Provide network observability
-- First major foray into eBPF
-- Raise the bar on visualizations in Web Console
+I hope this shows you the exciting possibilities that Network Observability is
+capable of.  Getting snapshots of your network with metrics and logs like a
+photo from a camera is decent.  Augmenting it by tracking movements like a full
+motion video camera raises it to another level.  The Network Observability
+feature is also setting the direction in two other areas.
+
+1. This is OpenShift's first major foray into eBPF technology.  Expect more to come in its use in other areas.
+2. The topology visualization raises the bar on what can be done in Web Console.  Look for even more tantalizing visualizations in the future.
+
+One final note is that Network Observability is an upstream open source
+project.  This means it will work outside of OpenShift.  It also means if you
+are as excited as we are in observability, you can contribute to this legacy.
+:smiley: I expect there to be many questions and feature requests so let
+the data flow!
 
