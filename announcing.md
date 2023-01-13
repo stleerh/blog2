@@ -312,9 +312,9 @@ feature is also setting the direction in two other areas.
 1. This is OpenShift's first major foray into eBPF technology.  Expect more to come in its use in other areas.
 2. The topology visualization raises the bar on what can be done in Web Console.  Look for even more tantalizing visualizations in the future.
 
-One final note is that Network Observability is an upstream open source
-project.  This means it will work outside of OpenShift.  It also means if you
-are as excited as we are in observability, you can contribute to this legacy.
-:smiley: I expect there to be many questions and feature requests so let
-the data flow!
+One final note is that Network Observability is an [upstream open source
+project](https://github.com/netobserv).  This means it will work outside of
+OpenShift.  It also means if you are as excited as we are about observability,
+you can contribute to this legacy. :smiley:  I expect there to be many
+questions and feature requests so let the data flow!
 
