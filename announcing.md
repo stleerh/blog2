@@ -202,7 +202,7 @@ The Overview tab only has a few graphs so if you want something more specific,
 you can install Grafana and create your own dashboards and queries by following
 these steps in Web Console.
 
-##### Install Grafana
+#### Install Grafana
 1. If in Administrator view, click **Administrator** and then select
 **Developer** to switch to Developer view.
 2. Click the **Project** drop-down menu and choose **netobserv**.
@@ -211,7 +211,7 @@ these steps in Web Console.
 you can select "No application group".
 5. Click **Create**.
 
-##### Log into Grafana
+#### Log into Grafana
 6. In the **Topology** panel, click the arrow badge on the **grafana** icon
 to launch the web page for Grafana.  You may have to wait a few seconds for
 the pod to come up.  The page indicates that it’s not secure, but go ahead
@@ -219,7 +219,7 @@ and continue.
 7. Log in and enter `admin` for the user and `admin` for the password.
 8. Click **Skip** to skip changing passwords.
 
-##### Create data source to get data from Loki
+#### Create data source to get data from Loki
 9. On the left menu, click the gear icon near the bottom and select **Data sources**.
 10. Click **Add data source** and select **Loki**.
 11. For the **URL**, enter the same value you use for the Loki **url** in FlowCollector (e.g. https://lokistack-gateway-http.netobserv.svc:8080/api/logs/v1/network).
@@ -246,21 +246,57 @@ _<div style="text-align: center">Figure 7: Loki data source</div>_
 15. Click **Save & test** button at the bottom.  If everything went well,
 you will get a green checkmark and no red notices.
 
-##### Create dashboards
+#### Create dashboards
 
 16. Now you can create your own dashboards.  If you want to try an example,
 download the dashboard JSON file [here](https://raw.githubusercontent.com/netobserv/network-observability-operator/0.1.2/config/samples/dashboards/Network%20Observability.json).
 On the left menu, click the **+** icon and select **Import**.  Click the
 **Upload JSON file** button, and select the file you just downloaded.  You
-should see the graphs now.  See Figure 8.
+should see the graphs now as shown in Figure 8.
 
 ![Grafana dashboard](images/grafana_dashboard-dark.png)
 _<div style="text-align: center">Figure 8: Grafana dashboard</div>_
 
 
 ### Use case #2: As a network analyst, I want to perform a network audit.
-(TODO)
-- Export to Kafka
+
+Network Observability will perform the first step in your auditing process by
+collecting the network flow data.  Be sure you are capturing all traffic in
+your network by turning off sampling.  The sampling rate is configured when you
+create a FlowCollector resource.  This is the **sampling** field in the
+**ebpf** section.  Set this to 0 for no sampling.
+
+![FlowCollector - sampling](images/flowcollector-sampling.png)
+_<div style="text-align: center">Figure 9: FlowCollector - sampling</div>_
+
+You can also edit the YAML resource and change the sampling rate for an
+existing FlowCollector.  This will restart the Network Observability pods and
+cause a small interruption in collecting data, but your data will otherwise be
+preserved.
+
+You will need your own tools to do the analysis and audit report.  Network
+Observability provides a way to export the flow data via Kafka so you can use
+any software that can accept a Kafka stream.  Please note that in OpenShift
+4.12, export data to Kafka is a tech preview feature.
+
+To set this up, make sure you have Kafka installed for Network Observability.
+In Kafka, create a specific Kafka topic for exporting, separate from the one
+that is used by eBPF Agent.  If you installed with Red Hat AMQ Streams, there
+is an API for Kafka Topic.  The next steps are to configure FlowCollector.
+
+1. In **deploymentModel**, select KAFKA.
+2. In the **exporters** section, for the **type**, select KAFKA.
+3. In the **kafka** section, provide the **address** of the Kafka server
+that you are exporting to.
+4. For **topic**, enter the Kafka topic that you created earlier.
+5. For **tls**, provide the CA certificate information to communicate with
+the Kafka server.
+
+![FlowCollector - exporters](images/flowcollector-export_to_kafka.png)
+_<div style="text-align: center">Figure 10: FlowCollector - exporters</div>_
+
+Finally, configure your receiving Kafka server as a listener and make sure you
+are using the same port on both sides.
 
 
 ## Summary
