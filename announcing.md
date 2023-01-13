@@ -287,16 +287,18 @@ is an API for Kafka Topic.  The next steps are to configure FlowCollector.
 1. In **deploymentModel**, select KAFKA.
 2. In the **exporters** section, for the **type**, select KAFKA.
 3. In the **kafka** section, provide the **address** of the Kafka server
-that you are exporting to.
+that you have installed.
 4. For **topic**, enter the Kafka topic that you created earlier.
 5. For **tls**, provide the CA certificate information to communicate with
-the other Kafka server.
+the Kafka server.
 
-![FlowCollector - exporters](images/flowcollector-export_to_kafka.png)
+![FlowCollector - exporters](images/flowcollector-export_kafka.png)
 _<div style="text-align: center">Figure 10: FlowCollector - exporters</div>_
 
-Finally, configure your receiving Kafka server as a listener and make sure you
-are using the same port on both sides.
+Finally, configure your software to be a Kafka consumer to receive this data.
+Make sure you are using the same port on both sides.  The format will be in
+JSON and looks like the raw JSON that you see when you select a row in the flow
+table and select the **Raw** tab.
 
 
 ## Wrap Up
