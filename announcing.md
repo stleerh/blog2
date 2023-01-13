@@ -277,7 +277,7 @@ preserved.
 You will need your own tools to do the analysis and audit report.  Network
 Observability provides a way to export the flow data via Kafka so you can use
 any software that can accept a Kafka stream.  Please note that in OpenShift
-4.12, export data to Kafka is a tech preview feature.
+4.12, export Kafka data is a Technical Preview feature.
 
 To set this up, make sure you have Kafka installed for Network Observability.
 In Kafka, create a specific Kafka topic for exporting, separate from the one
