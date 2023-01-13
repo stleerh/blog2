@@ -229,7 +229,7 @@ need the OAuth token for **Value**.  We will copy the token from the service
 account *netobserv-plugin*.
 
     a) In Web Console, go to **Workloads > Secrets**.<br>
-    b) Look for **netobserv-plugin-token-\*** and select this entry.<br>
+    b) Look for **netobserv-plugin-token-\*** and select this entry.  If you do not see this entry, you most likely are not using Loki Operator 5.6 or you did not configure this properly.<br>
     c) Scroll down to the **token** section.  Click the copy icon to copy the
     token.  See Figure 6.
 
@@ -240,6 +240,9 @@ _<div style="text-align: center">Figure 6: Secret - Token data</div>_
 followed by a space, and then paste in the token value.  You won't be able to
 see what you are typing so make sure you do this correctly.
 
+![Loki data source](images/loki_data_source.png)
+_<div style="text-align: center">Figure 7: Loki data source</div>_
+
 15. Click **Save & test** button at the bottom.  If everything went well,
 you will get a green checkmark and no red notices.
 
@@ -249,10 +252,13 @@ you will get a green checkmark and no red notices.
 download the dashboard JSON file [here](https://raw.githubusercontent.com/netobserv/network-observability-operator/0.1.2/config/samples/dashboards/Network%20Observability.json).
 On the left menu, click the **+** icon and select **Import**.  Click the
 **Upload JSON file** button, and select the file you just downloaded.  You
-should see the graphs now.
+should see the graphs now.  See Figure 8.
+
+![Grafana dashboard](images/grafana_dashboard-dark.png)
+_<div style="text-align: center">Figure 8: Grafana dashboard</div>_
 
 
-### Use case #2: Auditing
+### Use case #2: As a network analyst, I want to perform a network audit.
 (TODO)
 - Export to Kafka
 
