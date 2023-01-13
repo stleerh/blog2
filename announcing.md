@@ -142,7 +142,7 @@ Next is Quick filters.  The default excludes infrastructure traffic so if
 you have a new cluster with no applications running, there will be no data.
 The next field provides a powerful filtering capability.  Select a choice
 such as Common Namespace and enter a value to build your filter.  If you add
-multiple values for the same filter, it will assume this is an OR operation.
+multiple values for the same field, it will assume this is an OR operation.
 Between two different fields, it is an AND operation.  This is where the Query
 options can change this also to an OR operation.  In the dropdown, the word "Common" indicates that the field value can be on the source or destination side.
 
@@ -184,10 +184,10 @@ traffic and more.
 If I want to narrow down to something more specific, I can easily do this.
 Let's observe **Network Observability** and see what traffic it's generating!
 Network Observability uses two namespaces, *netobserv* and
-*network-privileged*.  The *network-privileged* namespace is where the eBPF
+*netobserv-privileged*.  The *netobserv-privileged* namespace is where the eBPF
 Agent runs because it requires special Linux capabilities.  The traffic appears
-in *netobserv* so just filter on this namespace.  You can view the data from of
-the three tabs, but the best one is Topology as shown in Figure 5.
+in *netobserv* so just filter on this namespace.  You can view the data from any
+of the three tabs, but the best one is Topology as shown in Figure 5.
 
 ![Topology - netobserv](images/topology-netobserv.png)
 _<div style="text-align: center">Figure 5: Topology - netobserv</div>_
