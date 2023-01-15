@@ -139,13 +139,14 @@ might be necessary if you need to know exactly where the traffic flowed into
 and out of the interfaces. There is also a choice for how you want to match
 filters (more on that later) and the maximum number of flows to retrieve.
 
-Next is Quick filters. The default excludes infrastructure traffic so if
-you have a new cluster with no applications running, there will be no data.
-The next field provides a powerful filtering capability. Select a choice
-such as Common Namespace and enter a value to build your filter. If you add
-multiple values for the same field, it will assume this is an OR operation.
-Between two different fields, it is an AND operation. This is where the Query
-options can change this also to an OR operation. In the dropdown, the word "Common" indicates that the field value can be on the source or destination side.
+Next is Quick filters. The default excludes infrastructure traffic so if you
+have a new cluster with no applications running, there will be no data. The
+next field provides a powerful filtering capability. Select a choice such as
+Common Namespace and enter a value to build your filter. If you add multiple
+values for the same field, it will assume this is an OR operation. Between two
+different fields, it is an AND operation. This is where the Query options can
+change this also to an OR operation. In the dropdown, the word "Common"
+indicates that the field value can be on the source or destination side.
 
 There are links like **Expand** that maximizes the space for this panel. In the
 upper right corner, you can set the time range for the data and have the
@@ -223,15 +224,19 @@ and continue.
 #### Create data source to get data from Loki
 9. On the left menu, click the gear icon near the bottom and select **Data sources**.
 10. Click **Add data source** and select **Loki**.
-11. For the **URL**, enter the same value you use for the Loki **url** in FlowCollector (for example, https://lokistack-gateway-http.netobserv.svc:8080/api/logs/v1/network).
+11. For the **URL**, enter the same value you use for the Loki **url** in
+FlowCollector (for example, `https://lokistack-gateway-http.netobserv.svc:8080/api/logs/v1/network`).
 12. Turn on **Skip TLS Verify** or provide a CA certificate.
 13. Click **Add header**. For **Header**, enter `Authorization`. An OAuth
 token is needed for **Value**. This token will be copied from the service
 account *netobserv-plugin*.
 
     a) In Web Console, go to **Workloads > Secrets**.<br>
-    b) Look for **netobserv-plugin-token-\*** and select this entry. If you do not see this entry, you most likely are not using Loki Operator 5.6 or you did not configure this properly.<br>
-    c) Scroll down to the **token** section. Click the copy icon to copy the token. See Figure 6.
+    b) Look for **netobserv-plugin-token-\*** and select this entry. If you
+do not see this entry, you most likely are not using Loki Operator 5.6 or you
+did not configure this properly.<br>
+    c) Scroll down to the **token** section. Click the copy icon to copy the
+token. See Figure 6.
 
 ![Secret - Token data](images/secret-token.png)
 _<div style="text-align: center">Figure 6: Secret - Token data</div>_
@@ -309,8 +314,10 @@ photo from a camera is decent. Augmenting it by tracking movements like a full
 motion video camera raises it to another level. The Network Observability
 feature is also setting the direction in two other areas.
 
-1. This is OpenShift's first major foray into eBPF technology. Expect more to come in its use in other areas.
-2. The topology visualization raises the bar on what can be done in Web Console. Look for even more tantalizing visualizations in the future.
+1. This is OpenShift's first major foray into eBPF technology. Expect more
+to come in its use in other areas.
+2. The topology visualization raises the bar on what can be done in Web
+Console. Look for even more tantalizing visualizations in the future.
 
 One final note is that Network Observability is an [upstream open source
 project](https://github.com/netobserv). This means it will work outside of
