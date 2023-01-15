@@ -11,7 +11,8 @@ With the release of OpenShift 4.12, Red Hat is introducing a new feature called
 Network Observability. Like this airplane view, you will be able to visualize
 the moving traffic. Instead of vehicles, it is the data that's moving in your
 Kubernetes cluster. Prior to 4.12, you could only see snapshots of this
-traffic. It is the difference between taking a picture versus filming a video.
+traffic. It is the difference between taking a picture compared to filming a
+video.
 
 Why is this important? Because with a video, you now have a record of
 everything that happened. It generates a timeline of events for every movement
@@ -37,7 +38,7 @@ What is unique about this solution thirty years later is that instead of having
 a typical router or switch export IPFIX data, an eBPF Agent was developed to
 hook into the network events so it can capture and export data coming in and
 out of the interfaces at the kernel level. eBPF is a relatively new technology
-that allows a program to run in a sandboxed environment, thus extending the
+that allows a program to run in a sandboxed environment, therfore extending the
 kernel in a safe and secure manner. Yet, it is not that new as the eBPF Agent
 will work as far back as Linux kernel 4.18 which was released in 2018. The
 immediate benefit of the eBPF approach is that it is more performant than the
@@ -133,10 +134,10 @@ tabs near the top called Overview, Traffic flows, and Topology. The first
 dropdown is Query options. In it, you can decide what flows are shown. By
 default, it is **Destination** which means it is the ingress traffic to the
 node as opposed to **Source** which is the egress traffic. You typically don't
-want **Both** since it will end up reporting the same flow twice, but that may
-be necessary if you need to know exactly where the traffic flowed into and out
-of the interfaces. There is also a choice for how you want to match filters
-(more on that later) and the maximum number of flows to retrieve.
+want **Both** since it will end up reporting the same flow twice, but that
+might be necessary if you need to know exactly where the traffic flowed into
+and out of the interfaces. There is also a choice for how you want to match
+filters (more on that later) and the maximum number of flows to retrieve.
 
 Next is Quick filters. The default excludes infrastructure traffic so if
 you have a new cluster with no applications running, there will be no data.
@@ -151,10 +152,10 @@ upper right corner, you can set the time range for the data and have the
 panel refresh automatically at various intervals if desired.
 
 The three tabs present different visualizations for the traffic flows. In the
-Overview tab (Figure 2), there are a number of different chart types that gives
-you a summary of the bandwidth usage. The Traffic flows tab (Figure 3)
-presents a detailed table of each flow enriched with Kubernetes metadata and
-the ability to choose what columns to display.
+Overview tab (Figure 2), there are several different chart types that gives you
+a summary of the bandwidth usage. The Traffic flows tab (Figure 3) presents a
+detailed table of each flow enriched with Kubernetes metadata and the ability
+to choose what columns to display.
 
 ![Traffic flow table](images/flow_table.png)
 _<div style="text-align: center">Figure 3: Traffic flow table</div>_
@@ -169,7 +170,7 @@ _<div style="text-align: center">Figure 4: Topology view</div>_
 
 ## Use Cases
 
-Now that you have a general overview of Network Observability, let's look at
+Now that you have a general overview of Network Observability, let's examine
 some concrete things you can do with it. I will go over two basic use
 cases, and encourage you to try these out or come up with your own scenarios.
 
@@ -213,7 +214,7 @@ you can select "No application group".
 
 #### Log into Grafana
 6. In the **Topology** panel, click the arrow badge on the **grafana** icon
-to launch the web page for Grafana. You may have to wait a few seconds for
+to open the web page for Grafana. You may have to wait a few seconds for
 the pod to come up. The page indicates that it’s not secure, but go ahead
 and continue.
 7. Log in and enter `admin` for the user and `admin` for the password.
@@ -222,7 +223,7 @@ and continue.
 #### Create data source to get data from Loki
 9. On the left menu, click the gear icon near the bottom and select **Data sources**.
 10. Click **Add data source** and select **Loki**.
-11. For the **URL**, enter the same value you use for the Loki **url** in FlowCollector (e.g. https://lokistack-gateway-http.netobserv.svc:8080/api/logs/v1/network).
+11. For the **URL**, enter the same value you use for the Loki **url** in FlowCollector (for example, https://lokistack-gateway-http.netobserv.svc:8080/api/logs/v1/network).
 12. Turn on **Skip TLS Verify** or provide a CA certificate.
 13. Click **Add header**. For **Header**, enter `Authorization`. An OAuth
 token is needed for **Value**. This token will be copied from the service
@@ -274,11 +275,11 @@ cause a small interruption in collecting data, but your data will otherwise be
 preserved.
 
 You will need your own tools to do the analysis and audit report. Network
-Observability provides a way to export the flow data via Kafka so you can use
+Observability provides a way to export the flow data from Kafka so you can use
 any software that can accept a Kafka stream. Please note that in OpenShift
 4.12, export Kafka data is a Technical Preview feature.
 
-To set this up, make sure you have Kafka installed for Network Observability.
+To set this up, check that you have Kafka installed for Network Observability.
 In Kafka, create a specific Kafka topic for exporting, separate from the one
 that is used by eBPF Agent. If you installed with Red Hat AMQ Streams, there
 is an API for Kafka Topic. The next steps are to configure FlowCollector.
@@ -295,7 +296,7 @@ the Kafka server.
 _<div style="text-align: center">Figure 10: FlowCollector - exporters</div>_
 
 Finally, configure your software to be a Kafka consumer to receive this data.
-Make sure you are using the same port on both sides. The format will be in
+Ensure you are using the same port on both sides. The format will be in
 JSON and looks like the raw JSON that you see when you select a row in the flow
 table and select the **Raw** tab.
 
