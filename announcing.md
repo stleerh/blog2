@@ -30,20 +30,21 @@ utilization and do better cost analysis and planning.
 ## Network Observability Architecture
 
 The core of Network Observability is to collect network flows or more
-specifically IPFIX data and then present this using powerful visualizations.
-NetFlows, as they were originally called, existed back in the 1990s as a way to
-capture that network insight at layer 3 and 4 of the OSI model.
+specifically, data similar to the IPFIX format, and then present this using
+powerful visualizations.  NetFlows, as they were originally called, existed
+back in the 1990s as a way to capture that network insight at layer 3 and 4 of
+the OSI model.
 
 What is unique about this solution thirty years later is that instead of having
 a typical router or switch export IPFIX data, an eBPF Agent was developed to
 hook into the network events so it can capture and export data coming in and
 out of the interfaces at the kernel level. eBPF is a relatively new technology
-that allows a program to run in a sandboxed environment, therfore extending the
-kernel in a safe and secure manner. Yet, it is not that new as the eBPF Agent
-will work as far back as Linux kernel 4.18 which was released in 2018. The
-immediate benefit of the eBPF approach is that it is more performant than the
-router/switch solution. In addition, it is not dependent on a particular CNI
-(Container Network Interface) such as OpenShift SDN or OVN-Kubernetes.
+that allows a program to run in a sandboxed environment, therefore extending
+the kernel in a safe and secure manner. Yet, it is not that new as the eBPF
+Agent will work as far back as Linux kernel 4.18 which was released in 2018.
+The immediate benefit of the eBPF approach is that it is more performant than
+the router/switch solution. In addition, it is not dependent on a particular
+CNI (Container Network Interface) such as OpenShift SDN or OVN-Kubernetes.
 
 On the receiving end of this exported data is a flow collector called the
 Flowlogs Pipeline (FLP) that processes this data, enriches it to be
@@ -85,7 +86,7 @@ You will need to create a secrets file to access the object store.
 The recommendation is to install Loki Operator 5.6, which simplifies the
 deployment of Loki in microservices mode that is necessary for scalability. In
 Web Console, you can do this from OperatorHub. Note that if you already have
-Loki installed for another purpose, it cannot be shared. You must still
+Loki installed for another purpose, it should not be shared. You must still
 install a separate Loki for Network Observability.
 
 3. Decide if you need Kafka<br>
