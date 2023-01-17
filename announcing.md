@@ -211,7 +211,7 @@ _<div style="text-align: center">Figure 5: Topology - netobserv</div>_
 Here, you can see *netobserv* interacting with *openshift-console*,
 *openshift-ingress*, *openshift-dns*, and others. Click **Show advanced
 options** and on the left side, click **Display options** and look for the
-option Scope. By default, the Scope is **Namespace** and topology shows the
+Scope option. By default, the Scope is **Namespace** and the topology shows the
 namespace-to-namespace communication. But if you choose Node, it will display
 the node-to-node communication. The *netobserv* namespace contains Flowlogs
 Pipeline, Console Plugin, Kafka, and Loki. To see the intra-communication
