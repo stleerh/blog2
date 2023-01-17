@@ -38,7 +38,7 @@ What is unique about this solution thirty years later is that instead of having
 a typical router or switch export IPFIX data, an eBPF Agent was developed to
 hook into the network events so it can capture and export data coming in and
 out of the interfaces at the kernel level. eBPF is a relatively new technology
-that allows a program to run in a sandboxed environment, therefore extending
+that allows a program to run in a sandbox environment, therefore extending
 the kernel in a safe and secure manner. Yet, it is not that new as the eBPF
 Agent will work as far back as Linux kernel 4.18 which was released in 2018.
 The immediate benefit of the eBPF approach is that it is more performant than
@@ -164,23 +164,23 @@ display the raw flow data.
 ![Traffic flow table](images/flow_table.png)
 _<div style="text-align: center">Figure 3: Traffic flow table</div>_
 
-<br>
 Finally, the Topology tab (Figure 4) raises the bar on the user interface by
 providing a graphical representation of traffic flows.
 
 ![Topology view](images/topology.png)
 _<div style="text-align: center">Figure 4: Topology view</div>_
 
-If you click **Show advanced options** and then **Display options** dropdown,
-there are many ways to configure the topology view. The first choice determines
-what to show for the edge labels, such as the latest rate or average rate and
-whether to use bytes or packets. The scope determines what to use for the node
-(more on this in the next section). Grouping, if used, highlights the nodes in
-the group type such as namespace. Layout has several algorithms on how to
-layout the topology. The next set of checkboxes allow you to show or hide
-certain data and how you want to display the labels. Next to **Display
-options** is a field to find and highlight nodes. On the far right is **Export
-topology view** to export the topology as a PNG file.
+Click **Show advanced options** and then **Display options** dropdown on the
+left side to configure the topology view. The first option determines what to
+show for the edge labels, such as the latest rate or average rate and whether
+to use bytes or packets. The scope determines what to use for the vertices in
+the graph (more on this in the next section). An optional grouping highlights
+the vertices in a group such as nodes and controls how to display this using
+**Collapse groups**. Layout has several algorithms to lay out the topology. The
+next set of checkboxes shows or hides certain data and controls the label
+length. Next to **Display options** is a field to find and highlight vertices.
+On the far right is **Export topology view** to export the topology as a PNG
+file.
 
 
 ## Use Cases
@@ -209,26 +209,27 @@ of the three tabs, but the best one is Topology as shown in Figure 5.
 _<div style="text-align: center">Figure 5: Topology - netobserv</div>_
 
 Here, you can see *netobserv* interacting with *openshift-console*,
-*openshift-ingress*, *openshift-dns*, and others. I clicked **Show advanced
-options** so on the left side, there is **Display options** and under it is a
-choice for Scope. By default, the Scope is **Namespace** and it shows the
+*openshift-ingress*, *openshift-dns*, and others. Click **Show advanced
+options** and on the left side, click **Display options** and look for the
+option Scope. By default, the Scope is **Namespace** and topology shows the
 namespace-to-namespace communication. But if you choose Node, it will display
-the node-to-node communication. The *netsobserv* namespace contains the FLP,
-Console Plugin, Kafka, and Loki. If you want to see the intra-communication
+the node-to-node communication. The *netsobserv* namespace contains Flowlogs
+Pipeline, Console Plugin, Kafka, and Loki. To see the intra-communication
 between these components, for the filter, set Source Namespace and Destination
-Namespace to **netobserv** and then set Scope to **Owner** (Figure 6). The
-owner is typically a Deployment, StatefulSet, or DaemonSet that manages the
-pods.
+Namespace to **netobserv** and set Scope to **Owner** (Figure 6). The owner is
+typically a Deployment, StatefulSet, or DaemonSet that has pods as its
+dependent.
 
 ![Topology - Owner Scope](images/topology-netobserv-owner.png)
 _<div style="text-align: center">Figure 6: Topology - Owner Scope</div>_
 
-Now if you want to go even deeper, select **Resource** for the Scope. This then
-shows the pod to pod/service communication. This is the power of the scopes!
+Because of replicas, to go even deeper to see the specific pod, select
+**Resource** for the Scope. This shows the specific pod to pod/service
+communication. This is the power of the scopes!
 
-The Overview tab only has a few graphs so if you want something more specific,
-you can install Grafana and create your own dashboards and queries by following
-these steps in Web Console.
+On metrics, the Overview tab only has a few charts so if you want something
+more specific, install Grafana to create your own dashboards and queries by
+following these steps in Web Console.
 
 #### Install Grafana
 1. If in Administrator view, click **Administrator** and then select
