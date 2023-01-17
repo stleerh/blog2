@@ -302,9 +302,8 @@ create a FlowCollector resource. This is the **sampling** field in the
 _<div style="text-align: center">Figure 10: FlowCollector - sampling</div>_
 
 You can also edit the YAML resource and change the sampling rate for an
-existing FlowCollector. This will restart the Network Observability pods and
-cause a small interruption in collecting data, but your data will otherwise be
-preserved.
+existing FlowCollector. This will restart eBPF Agent, but your existing data
+will be preserved.
 
 You will need your own tools to do the analysis and audit report. Network
 Observability provides a way to export the flow data from Kafka so you can use
