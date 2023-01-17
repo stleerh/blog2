@@ -50,7 +50,7 @@ Flowlogs Pipeline (FLP) that processes this data, enriches it to be
 Kubernetes-aware, and deduplicates redundant and less relevant data. If you
 have bursty or high amounts of traffic, you will want to consider installing
 Apache Kafka to be the middleman in between the eBPF Agent and FLP to help with
-buffering and improve streaming.
+buffering and improving streaming.
 
 Network Observability also includes a Console Plugin that extends the
 browser-based Web Console. FLP sends the data to Loki to write out to storage.
@@ -70,8 +70,8 @@ separately. However, it is included with the self-managed
 offering at no extra cost. The good news is that since it is separate from the
 core platform, it is supported retroactively back to OpenShift 4.10!
 
-The [Network Observability docs](https://docs.openshift.com/container-platform/4.12/networking/network_observability/network-observability-overview.html)
-provide a great step-by-step guide on installing Network Observability. Now
+The [Network Observability documentation](https://docs.openshift.com/container-platform/4.12/networking/network_observability/network-observability-overview.html)
+provides a great step-by-step guide on installing Network Observability. Now
 that you've seen the architectural diagram, you know all of the major
 components that are involved. The Network Observability Operator only manages
 eBPF Agent, Flowlogs Pipeline, and Console Plugin. The main items to consider
@@ -150,7 +150,7 @@ indicates that the field value can be on the source or destination side.
 
 There are links like **Expand** that maximizes the space for this panel. In the
 upper right corner, you can set the time range for the data and have the
-panel refresh automatically at various intervals if desired.
+panel refresh automatically at various intervals, if desired.
 
 The three tabs present different visualizations for the traffic flows. In the
 Overview tab (Figure 2), there are several different chart types that give you
@@ -158,8 +158,8 @@ a summary of the bandwidth usage. The Traffic flows tab (Figure 3) presents a
 detailed table of each flow enriched with Kubernetes metadata. If you click
 **Show advanced options**, you can choose what columns to display in **Manage
 columns** and export the table in CSV format with **Export data**. Click any
-column to sort it in ascending or descending order. If you click a row, it will
-display the raw flow data.
+column to sort in ascending or descending order. If you click a row, it will
+show more details including the raw flow data.
 
 ![Traffic flow table](images/flow_table.png)
 _<div style="text-align: center">Figure 3: Traffic flow table</div>_
@@ -213,7 +213,7 @@ Here, you can see *netobserv* interacting with *openshift-console*,
 options** and on the left side, click **Display options** and look for the
 option Scope. By default, the Scope is **Namespace** and topology shows the
 namespace-to-namespace communication. But if you choose Node, it will display
-the node-to-node communication. The *netsobserv* namespace contains Flowlogs
+the node-to-node communication. The *netobserv* namespace contains Flowlogs
 Pipeline, Console Plugin, Kafka, and Loki. To see the intra-communication
 between these components, for the filter, set Source Namespace and Destination
 Namespace to **netobserv** and set Scope to **Owner** (Figure 6). The owner is
@@ -335,20 +335,20 @@ and select the **Raw** tab.
 
 ## Wrap Up
 
-I hope this shows you the exciting possibilities that Network Observability is
-capable of. Getting snapshots of your network with metrics and logs like a
-photo from a camera is decent. Augmenting it by tracking movements like a full
-motion video camera raises it to another level. The Network Observability
+I hope this shows some of the exciting possibilities that Network Observability
+is capable of. Getting snapshots of your network with metrics and logs like
+photographs from a camera is helpful. Augmenting it by tracking movements like
+a full motion video camera raises it to a new level. The Network Observability
 feature is also setting the direction in two other areas.
 
 1. This is OpenShift's first major foray into eBPF technology. Expect more
-to come in its use in other areas.
+to come in this area.
 2. The topology visualization raises the bar on what can be done in Web
 Console. Look for even more tantalizing visualizations in the future.
 
 One final note is that Network Observability is an [upstream open source
 project](https://github.com/netobserv). This means it will work outside of
 OpenShift. It also means if you are as excited as we are about observability,
-you can contribute to this legacy. :smiley: I expect there to be many
-questions and feature requests so let the data flow!
+you can contribute to this legacy. :smiley: I expect there will be many
+questions and feature requests, so let the data flow!
 
