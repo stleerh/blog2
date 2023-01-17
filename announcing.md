@@ -29,11 +29,10 @@ utilization and do better cost analysis and planning.
 
 ## Network Observability Architecture
 
-The core of Network Observability is to collect network flows or more
-specifically, data similar to the IPFIX format, and then present this using
-powerful visualizations.  NetFlows, as they were originally called, existed
-back in the 1990s as a way to capture that network insight at layer 3 and 4 of
-the OSI model.
+The core of Network Observability is to collect network flows similar to the
+IPFIX format, and then present them using powerful visualizations. NetFlows, as
+they were originally called, existed back in the 1990s as a way to capture that
+network insight at layer 3 and 4 of the OSI model.
 
 What is unique about this solution thirty years later is that instead of having
 a typical router or switch export IPFIX data, an eBPF Agent was developed to
@@ -154,10 +153,13 @@ upper right corner, you can set the time range for the data and have the
 panel refresh automatically at various intervals if desired.
 
 The three tabs present different visualizations for the traffic flows. In the
-Overview tab (Figure 2), there are several different chart types that gives you
+Overview tab (Figure 2), there are several different chart types that give you
 a summary of the bandwidth usage. The Traffic flows tab (Figure 3) presents a
-detailed table of each flow enriched with Kubernetes metadata and the ability
-to choose what columns to display.
+detailed table of each flow enriched with Kubernetes metadata. If you click
+**Show advanced options**, you can choose what columns to display in **Manage
+columns** and export the table in CSV format with **Export data**. Click any
+column to sort it in ascending or descending order. If you click a row, it will
+display the raw flow data.
 
 ![Traffic flow table](images/flow_table.png)
 _<div style="text-align: center">Figure 3: Traffic flow table</div>_
@@ -168,6 +170,17 @@ providing a graphical representation of traffic flows.
 
 ![Topology view](images/topology.png)
 _<div style="text-align: center">Figure 4: Topology view</div>_
+
+If you click **Show advanced options** and then **Display options** dropdown,
+there are many ways to configure the topology view. The first choice determines
+what to show for the edge labels, such as the latest rate or average rate and
+whether to use bytes or packets. The scope determines what to use for the node
+(more on this in the next section). Grouping, if used, highlights the nodes in
+the group type such as namespace. Layout has several algorithms on how to
+layout the topology. The next set of checkboxes allow you to show or hide
+certain data and how you want to display the labels. Next to **Display
+options** is a field to find and highlight nodes. On the far right is **Export
+topology view** to export the topology as a PNG file.
 
 
 ## Use Cases
@@ -196,10 +209,22 @@ of the three tabs, but the best one is Topology as shown in Figure 5.
 _<div style="text-align: center">Figure 5: Topology - netobserv</div>_
 
 Here, you can see *netobserv* interacting with *openshift-console*,
-*openshift-ingress*, *openshift-dns*, and others. I clicked the "Show advanced
-options" so on the left side, you can tweak various settings in the graph. On
-the right side, there is also a link called "Export topology view" to export
-the graph as a PNG file.
+*openshift-ingress*, *openshift-dns*, and others. I clicked **Show advanced
+options** so on the left side, there is **Display options** and under it is a
+choice for Scope. By default, the Scope is **Namespace** and it shows the
+namespace-to-namespace communication. But if you choose Node, it will display
+the node-to-node communication. The *netsobserv* namespace contains the FLP,
+Console Plugin, Kafka, and Loki. If you want to see the intra-communication
+between these components, for the filter, set Source Namespace and Destination
+Namespace to **netobserv** and then set Scope to **Owner** (Figure 6). The
+owner is typically a Deployment, StatefulSet, or DaemonSet that manages the
+pods.
+
+![Topology - Owner Scope](images/topology-netobserv-owner.png)
+_<div style="text-align: center">Figure 6: Topology - Owner Scope</div>_
+
+Now if you want to go even deeper, select **Resource** for the Scope. This then
+shows the pod to pod/service communication. This is the power of the scopes!
 
 The Overview tab only has a few graphs so if you want something more specific,
 you can install Grafana and create your own dashboards and queries by following
@@ -237,17 +262,17 @@ account *netobserv-plugin*.
 do not see this entry, you most likely are not using Loki Operator 5.6 or you
 did not configure this properly.<br>
     c) Scroll down to the **token** section. Click the copy icon to copy the
-token. See Figure 6.
+token. See Figure 7.
 
 ![Secret - Token data](images/secret-token.png)
-_<div style="text-align: center">Figure 6: Secret - Token data</div>_
+_<div style="text-align: center">Figure 7: Secret - Token data</div>_
 
 14. Now go back to Grafana and in the **Value** field, carefully enter `Bearer`
 followed by a space, and then paste in the token value. You won't be able to
 see what you are typing so make sure you do this correctly.
 
 ![Loki data source](images/loki_data_source.png)
-_<div style="text-align: center">Figure 7: Loki data source</div>_
+_<div style="text-align: center">Figure 8: Loki data source</div>_
 
 15. Click **Save & test** button at the bottom. If everything went well,
 you will get a green checkmark and no red notices.
@@ -258,10 +283,10 @@ you will get a green checkmark and no red notices.
 download the dashboard JSON file [here](https://raw.githubusercontent.com/netobserv/network-observability-operator/0.1.2/config/samples/dashboards/Network%20Observability.json).
 On the left menu, click the **+** icon and select **Import**. Click the
 **Upload JSON file** button, and select the file you just downloaded. You
-should see the graphs now as shown in Figure 8.
+should see the graphs now as shown in Figure 9.
 
 ![Grafana dashboard](images/grafana_dashboard-dark.png)
-_<div style="text-align: center">Figure 8: Grafana dashboard</div>_
+_<div style="text-align: center">Figure 9: Grafana dashboard</div>_
 
 
 ### Use case #2: As a network analyst, I want to perform a network audit.
@@ -273,7 +298,7 @@ create a FlowCollector resource. This is the **sampling** field in the
 **ebpf** section. Set this to 0 for no sampling.
 
 ![FlowCollector - sampling](images/flowcollector-sampling.png)
-_<div style="text-align: center">Figure 9: FlowCollector - sampling</div>_
+_<div style="text-align: center">Figure 10: FlowCollector - sampling</div>_
 
 You can also edit the YAML resource and change the sampling rate for an
 existing FlowCollector. This will restart the Network Observability pods and
@@ -299,12 +324,12 @@ that you have installed.
 the Kafka server.
 
 ![FlowCollector - exporters](images/flowcollector-export_kafka.png)
-_<div style="text-align: center">Figure 10: FlowCollector - exporters</div>_
+_<div style="text-align: center">Figure 11: FlowCollector - exporters</div>_
 
 Finally, configure your software to be a Kafka consumer to receive this data.
-Ensure you are using the same port on both sides. The format will be in
-JSON and looks like the raw JSON that you see when you select a row in the flow
-table and select the **Raw** tab.
+Ensure you are using the same port on both sides. The format will be JSON, and
+it looks like the raw JSON that you see when you select a row in the flow table
+and select the **Raw** tab.
 
 
 ## Wrap Up
