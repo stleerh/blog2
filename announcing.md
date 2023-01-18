@@ -16,15 +16,16 @@ video.
 
 Why is this important? Because with a video, you now have a record of
 everything that happened. It generates a timeline of events for every movement
-that's made so all of this is captured and stored. By organizing this data,
-you can replay the entire stories that happen concurrently. For example, when
-there is a problem such as a traffic jam (latency), you will know what
-happened, who was involved, when it occurred and for how long, where it
-happened, and with analysis, you might be able to figure out why it happened
-and how to prevent it from happening again in the future. Perhaps to avoid
-this latency that tends to occur at a certain time of the day, you could
-increase the amount of bandwidth only for this period of time to improve
-utilization and do better cost analysis and planning.
+that's made so all of this is captured and stored. By organizing this data, you
+can replay the entire stories that happen concurrently. For example, when there
+is a problem such as a traffic jam (latency), you will know what happened, who
+was involved, when it occurred and for how long, where it happened, and with
+analysis, you might be able to figure out why it happened and how to prevent it
+from happening again in the future. Perhaps to avoid this latency that tends to
+occur at a certain time of the day, you could increase the amount of bandwidth
+only for this period of time to improve utilization and do better cost analysis
+and planning. It can help in a wide range of areas in troubleshooting
+connectivity and optimizing network performance.
 
 
 ## Network Observability Architecture
@@ -65,9 +66,9 @@ _<div style="text-align: center">Figure 1: Architectural Diagram</div>_
 
 If you create an OpenShift 4.12 cluster, you will not find Network
 Observability because it is an optional operator that needs to be installed
-separately. However, it is included with the self-managed
+separately. However, it is included with all the popular platforms that
 [Red Hat OpenShift Container Platform](https://www.redhat.com/en/technologies/cloud-computing/openshift/container-platform)
-offering at no extra cost. The good news is that since it is separate from the
+runs on at no extra cost. The good news is that since it is separate from the
 core platform, it is supported retroactively back to OpenShift 4.10!
 
 The [Network Observability documentation](https://docs.openshift.com/container-platform/4.12/networking/network_observability/network-observability-overview.html)
@@ -113,11 +114,13 @@ memory.
 
 ## Using Network Observability
 
-Network Observability is only available to users with the cluster-admin role,
-such as kubeadmin, since this user can see all the traffic in the cluster, both
-infrastructure-related and all applications. It handles one cluster so any
-traffic that goes out or comes into this cluster is considered external traffic
-even if the traffic is from another cluster that you manage.
+Network Observability provides networking information for a single cluster with
+multi-cluster support coming soon. It is only available to users with the
+cluster-admin role, such as kubeadmin, since this user can see all the traffic
+in the cluster, both infrastructure-related and all applications. Because it
+handles one cluster, any traffic that goes out or comes into this cluster is
+considered external traffic even if the traffic is from another cluster that
+you manage.
 
 Once you have Network Observability installed and have created a FlowCollector
 resource, behind the scenes, the network flow data will be created, collected,
@@ -186,8 +189,10 @@ file.
 ## Use Cases
 
 Now that you have a general overview of Network Observability, let's examine
-some concrete things you can do with it. I will go over two basic use
-cases, and encourage you to try these out or come up with your own scenarios.
+some concrete things you can do with it. Network Observability is suitable for
+any role where a core networking component is involved. I will go over two
+basic use cases, and encourage you to try these out or come up with your own
+scenarios.
 
 ### Use case #1: As a cluster-admin, I want to see what traffic is running on my network.
 
