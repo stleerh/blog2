@@ -1,5 +1,24 @@
 # Announcing Network Observability
 
+With the release of Red Hat OpenShift Container Platform version 4.12, Network
+Observability is now a fully supported, optional addition to network-specific
+information presented in the OpenShift Web Console.
+
+
+## Why is Network Observability Important?
+
+A critically important aspect of any deployment of Red Hat OpenShift Networking
+is the ability to visualize and gain insights into pod/service networking, and
+egress, ingress and intra-cluster traffic. This new capability provides
+networking information for a single cluster, including what types of traffic
+and traffic flows are being made, when, by whom and to whom. It gathers data to
+help design, plan, and answer questions about the network and provides visual
+representations to help understand, diagnose, and troubleshoot networking
+issues.
+
+
+## The Airplane View
+
 If you are on an airplane and look down on a metropolis on a busy day, you will
 see thousands of cars, trucks, and motorcycles driving from every which way at
 various speeds. There will be traffic jams in some places, cars racing across
@@ -7,19 +26,18 @@ the highways, other cars completely stopped at intersections, and vehicles
 parked at various locations. If you focus on a single vehicle, you can even
 track its starting point and its final destination.
 
-With the release of OpenShift 4.12, Red Hat is introducing a new feature called
-Network Observability. Like this airplane view, you will be able to visualize
-the moving traffic. Instead of vehicles, it is the data that's moving in your
-Kubernetes cluster. Prior to 4.12, you could only see snapshots of this
-traffic. It is the difference between taking a picture compared to filming a
-video.
+Like the airplane view, with Network Observability, you will be able to
+visualize the moving traffic, but instead of vehicles, it is the data that's
+moving in your Kubernetes cluster. Prior to OpenShift 4.12, you could only see
+snapshots of this traffic. It is the difference between taking a picture
+compared to filming a video.
 
-Why is this important? Because with a video, you now have a record of
-everything that happened. It generates a timeline of events for every movement
-that's made so all of this is captured and stored. By organizing this data, you
-can replay the entire stories that happen concurrently. For example, when there
-is a problem such as a traffic jam (latency), you will know what happened, who
-was involved, when it occurred and for how long, where it happened, and with
+What's the big deal? Because with a video, you now have a record of everything
+that happened. It generates a timeline of events for every movement that's made
+so all of this is captured and stored. By organizing this data, you can replay
+the entire stories that happen concurrently. For example, when there is a
+problem such as a traffic jam (latency), you will know what happened, who was
+involved, when it occurred and for how long, where it happened, and with
 analysis, you might be able to figure out why it happened and how to prevent it
 from happening again in the future. Perhaps to avoid this latency that tends to
 occur at a certain time of the day, you could increase the amount of bandwidth
@@ -342,8 +360,9 @@ and select the **Raw** tab.
 I hope this shows some of the exciting possibilities that Network Observability
 is capable of. Getting snapshots of your network with metrics and logs like
 photographs from a camera is helpful. Augmenting it by tracking movements like
-a full motion video camera raises it to a new level. The Network Observability
-feature is also setting the direction in two other areas.
+a full motion video camera raises it to a new level so that troubleshooting,
+providing deeper insights, security, and network planning are all possible.
+Network Observability is also setting the direction in two other areas.
 
 1. This is OpenShift's first major foray into eBPF technology. Expect more
 to come in this area.
