@@ -367,7 +367,7 @@ Network Observability is also setting the direction in two other areas.
 1. This is OpenShift's first major foray into eBPF technology. Expect more
 to come in this area.
 2. The topology visualization raises the bar on what can be done in Web
-Console. Look for even more tantalizing visualizations in the future.
+Console. Look for even more [tantalizing visualizations](https://cloud.redhat.com/blog/how-to-display-your-kubernetes-/-openshift-network-flows) in the future.
 
 One final note is that Network Observability is an [upstream open source
 project](https://github.com/netobserv). This means it will work outside of
