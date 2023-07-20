@@ -259,8 +259,7 @@ following these steps in Web Console.
 **Developer** to switch to Developer view.
 2. Click the **Project** drop-down menu and choose **netobserv**.
 3. Click **+Add** and then click the **Container images** section.
-4. Enter `grafana/grafana` for the image name. Optionally for Application,
-you can select "No application group".
+4. Enter `grafana/grafana` for the image name.
 5. Click **Create**.
 
 #### Log into Grafana
@@ -272,31 +271,29 @@ and continue.
 8. Click **Skip** to skip changing passwords.
 
 #### Create data source to get data from Loki
-9. On the left menu, click the gear icon near the bottom and select **Data sources**.
+9. Look for **Data sources**. In Grafana v10, this is under the menu on
+the left-hand side under **Administration > Data sources**. In older
+versions, click the gear icon near the bottom left section and select
+**Data sources**.
 10. Click **Add data source** and select **Loki**.
 11. For the **URL**, enter the same value you use for the Loki **url** in
-FlowCollector (for example, `https://lokistack-gateway-http.netobserv.svc:8080/api/logs/v1/network`).
+FlowCollector (for example, `https://lokistack-gateway-http.netobserv.svc:8080/api/logs/v1/network`,
+where the LokiStack resource was named lokistack).
 12. Turn on **Skip TLS Verify** or provide a CA certificate.
 13. Click **Add header**. For **Header**, enter `Authorization`. An OAuth
-token is needed for **Value**. This token will be copied from the service
-account *netobserv-plugin*.
+token is needed for **Value**. This token will be copied from your session's
+API token.
 
-    a) In Web Console, go to **Workloads > Secrets**.<br>
-    b) Look for **netobserv-plugin-token-\*** and select this entry. If you
-do not see this entry, you most likely are not using Loki Operator 5.6 or you
-did not configure this properly.<br>
-    c) Scroll down to the **token** section. Click the copy icon to copy the
-token. See Figure 7.
-
-![Secret - Token data](images/secret-token.png)
-_<div style="text-align: center">Figure 7: Secret - Token data</div>_
+    a) In Web Console, click your username in the upper right corner and select **Copy login command**.<br>
+    b) Then click **Display Token**.<br>
+    c) The API token will begin with "sha256". Copy this value.
 
 14. Now go back to Grafana and in the **Value** field, carefully enter `Bearer`
 followed by a space, and then paste in the token value. You won't be able to
 see what you are typing so make sure you do this correctly.
 
 ![Loki data source](images/loki_data_source.png)
-_<div style="text-align: center">Figure 8: Loki data source</div>_
+_<div style="text-align: center">Figure 7: Loki data source</div>_
 
 15. Click **Save & test** button at the bottom. If everything went well,
 you will get a green checkmark and no red notices.
@@ -304,13 +301,15 @@ you will get a green checkmark and no red notices.
 #### Create dashboards
 
 16. Now you can create your own dashboards. If you want to try an example,
-download the dashboard JSON file [here](https://raw.githubusercontent.com/netobserv/network-observability-operator/0.1.2/config/samples/dashboards/Network%20Observability.json).
-On the left menu, click the **+** icon and select **Import**. Click the
-**Upload JSON file** button, and select the file you just downloaded. You
-should see the graphs now as shown in Figure 9.
+download the dashboard JSON file
+[here](https://raw.githubusercontent.com/netobserv/network-observability-operator/main/config/samples/dashboards/Network%20Observability.json).
+In Grafana v10, click the **+** dropdown in the upper right corner and
+select **Import dashboard**. In older Grafana, on the left menu, click the
+**+** icon and select **Import**. Now upload the file that you just downloaded.
+You should see the graphs now as shown in Figure 8.
 
 ![Grafana dashboard](images/grafana_dashboard-dark.png)
-_<div style="text-align: center">Figure 9: Grafana dashboard</div>_
+_<div style="text-align: center">Figure 8: Grafana dashboard</div>_
 
 
 ### Use case #2: As a network analyst, I want to perform a network audit.
@@ -322,7 +321,7 @@ create a FlowCollector resource. This is the **sampling** field in the
 **ebpf** section. Set this to 0 for no sampling.
 
 ![FlowCollector - sampling](images/flowcollector-sampling.png)
-_<div style="text-align: center">Figure 10: FlowCollector - sampling</div>_
+_<div style="text-align: center">Figure 9: FlowCollector - sampling</div>_
 
 You can also edit the YAML resource and change the sampling rate for an
 existing FlowCollector. This will restart eBPF Agent, but your existing data
@@ -347,7 +346,7 @@ that you have installed.
 the Kafka server.
 
 ![FlowCollector - exporters](images/flowcollector-export_kafka.png)
-_<div style="text-align: center">Figure 11: FlowCollector - exporters</div>_
+_<div style="text-align: center">Figure 10: FlowCollector - exporters</div>_
 
 Finally, configure your software to be a Kafka consumer to receive this data.
 Ensure you are using the same port on both sides. The format will be JSON, and
@@ -372,6 +371,6 @@ Console. Look for even more [tantalizing visualizations](https://cloud.redhat.co
 One final note is that Network Observability is an [upstream open source
 project](https://github.com/netobserv). This means it will work outside of
 OpenShift. It also means if you are as excited as we are about observability,
-you can contribute to this legacy. :smiley: I expect there will be many
-questions and feature requests, so let the data flow!
+you can contribute to this legacy. I expect there will be many questions and
+feature requests, so let the data flow!
 
